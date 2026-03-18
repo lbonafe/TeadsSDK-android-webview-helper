@@ -15,7 +15,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import tv.teads.teadssdkdemo.v6.ui.base.components.ChipGroup
-import tv.teads.teadssdkdemo.v6.ui.base.components.CollapsibleSection
 import tv.teads.teadssdkdemo.v6.ui.base.components.DemoTextField
 import tv.teads.teadssdkdemo.v6.ui.base.components.FormatDescription
 import tv.teads.teadssdkdemo.v6.ui.base.components.Section
@@ -61,11 +60,7 @@ fun DemoScreen(
                 .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.1f))
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
-            CollapsibleSection(
-                title = "Placement Configurations",
-                isExpanded = viewModel.isPlacementConfigurationExpanded,
-                onToggleExpanded = viewModel::togglePlacementConfigurationExpanded
-            ) {
+            Section(title = "Placement Configurations") {
                 // Article URL Text Field
                 DemoTextField(
                     value = articleUrl,

@@ -39,9 +39,6 @@ class DemoViewModel : ViewModel() {
     private val _articleUrl = MutableStateFlow("")
     val articleUrl: StateFlow<String> = _articleUrl.asStateFlow()
 
-    var isPlacementConfigurationExpanded: Boolean by mutableStateOf(false)
-        private set
-
     // PID presets for Media format
     private val mediaPids = listOf(
         "Landscape" to "84242",
@@ -94,10 +91,6 @@ class DemoViewModel : ViewModel() {
     private fun updateIntegration(integration: IntegrationType) {
         selectedIntegration = integration
         DemoSessionConfiguration.setIntegration(integration)
-    }
-
-    fun togglePlacementConfigurationExpanded() {
-        isPlacementConfigurationExpanded = !isPlacementConfigurationExpanded
     }
 
     fun getFormatChips(): List<ChipData> = listOf(
