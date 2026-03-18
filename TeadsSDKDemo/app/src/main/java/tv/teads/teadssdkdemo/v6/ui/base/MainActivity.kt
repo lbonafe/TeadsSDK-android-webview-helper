@@ -31,21 +31,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.NavigationHandler
 import tv.teads.teadssdkdemo.v6.ui.base.navigation.Route
 import tv.teads.teadssdkdemo.v6.ui.base.theme.TeadsSDKDemoTheme
-import tv.teads.teadssdkdemo.v6.ui.compose.FeedColumnScreen
-import tv.teads.teadssdkdemo.v6.ui.compose.FeedLazyColumnScreen
-import tv.teads.teadssdkdemo.v6.ui.compose.MediaAdmobColumnScreen
-import tv.teads.teadssdkdemo.v6.ui.compose.MediaAppLovinColumnScreen
-import tv.teads.teadssdkdemo.v6.ui.compose.MediaColumnScreen
-import tv.teads.teadssdkdemo.v6.ui.compose.MediaFeedColumnScreen
-import tv.teads.teadssdkdemo.v6.ui.compose.MediaLazyColumnScreen
-import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeAdmobColumnScreen
-import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeAppLovinColumnScreen
-import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeColumnScreen
-import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeLazyColumnScreen
-import tv.teads.teadssdkdemo.v6.ui.compose.MediaNativeSmartColumnScreen
-import tv.teads.teadssdkdemo.v6.ui.compose.MediaSmartColumnScreen
-import tv.teads.teadssdkdemo.v6.ui.compose.RecommendationsColumnScreen
-import tv.teads.teadssdkdemo.v6.ui.compose.RecommendationsLazyColumnScreen
 import tv.teads.teadssdkdemo.v5.InReadWebViewColumnScreen
 
 class MainActivity : ComponentActivity() {
@@ -78,21 +63,6 @@ class MainActivity : ComponentActivity() {
                             title = {
                                 Text(
                                     text = when (currentRoute) {
-                                        Route.MediaColumn -> "Media Column"
-                                        Route.MediaFeedColumn -> "Media Feed Column"
-                                        Route.MediaLazyColumn -> "Media LazyColumn"
-                                        Route.MediaNativeColumn -> "Media Native Column"
-                                        Route.MediaNativeLazyColumn -> "Media Native LazyColumn"
-                                        Route.MediaAdMobColumn -> "Media AdMob Column"
-                                        Route.MediaNativeAdMobColumn -> "Media Native AdMob Column"
-                                        Route.MediaAppLovinColumn -> "Media AppLovin Column"
-                                        Route.MediaNativeAppLovinColumn -> "Media Native AppLovin Column"
-                                        Route.MediaSmartColumn -> "Media Smart Column"
-                                        Route.MediaNativeSmartColumn -> "Media Native Smart Column"
-                                        Route.FeedColumn -> "Feed Column"
-                                        Route.FeedLazyColumn -> "Feed LazyColumn"
-                                        Route.RecommendationsColumn -> "Recommendations Column"
-                                        Route.RecommendationsLazyColumn -> "Recommendations LazyColumn"
                                         Route.InReadWebViewColumn -> "InRead WebView Column"
                                         else -> "Teads SDK Demo"
                                     },
@@ -108,23 +78,13 @@ class MainActivity : ComponentActivity() {
                                 titleContentColor = MaterialTheme.colorScheme.onSurface
                             ),
                             navigationIcon = {
-                                when (currentRoute) {
-                                    Route.MediaColumn, Route.MediaFeedColumn, Route.MediaLazyColumn,
-                                    Route.MediaNativeColumn, Route.MediaNativeLazyColumn,
-                                    Route.MediaAdMobColumn, Route.MediaNativeAdMobColumn,
-                                    Route.MediaAppLovinColumn, Route.MediaNativeAppLovinColumn,
-                                    Route.MediaSmartColumn, Route.MediaNativeSmartColumn,
-                                    Route.FeedColumn, Route.FeedLazyColumn,
-                                    Route.RecommendationsColumn, Route.RecommendationsLazyColumn,
-                                    Route.InReadWebViewColumn -> {
-                                        IconButton(onClick = { currentRoute = Route.Demo }) {
-                                            Icon(
-                                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                                contentDescription = "Back to Demo"
-                                            )
-                                        }
+                                if (currentRoute == Route.InReadWebViewColumn) {
+                                    IconButton(onClick = { currentRoute = Route.Demo }) {
+                                        Icon(
+                                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                            contentDescription = "Back to Demo"
+                                        )
                                     }
-                                    else -> {}
                                 }
                             }
                         )
@@ -137,13 +97,6 @@ class MainActivity : ComponentActivity() {
                             // Set up navigation callback
                             viewModel.setOnNavigateCallback { navRoute ->
                                 when (navRoute) {
-                                    Route.MediaColumn, Route.MediaFeedColumn, Route.MediaLazyColumn,
-                                    Route.MediaNativeColumn, Route.MediaNativeLazyColumn,
-                                    Route.MediaAdMobColumn, Route.MediaNativeAdMobColumn,
-                                    Route.MediaAppLovinColumn, Route.MediaNativeAppLovinColumn,
-                                    Route.MediaSmartColumn, Route.MediaNativeSmartColumn,
-                                    Route.FeedColumn, Route.FeedLazyColumn,
-                                    Route.RecommendationsColumn, Route.RecommendationsLazyColumn,
                                     Route.InReadWebViewColumn -> {
                                         currentRoute = navRoute
                                     }
@@ -159,81 +112,6 @@ class MainActivity : ComponentActivity() {
                             DemoScreen(
                                 modifier = Modifier.padding(paddingValues),
                                 viewModel = viewModel
-                            )
-                        }
-                        Route.MediaColumn -> {
-                            MediaColumnScreen(
-                                modifier = Modifier.padding(paddingValues)
-                            )
-                        }
-                        Route.MediaFeedColumn -> {
-                            MediaFeedColumnScreen(
-                                modifier = Modifier.padding(paddingValues)
-                            )
-                        }
-                        Route.MediaLazyColumn -> {
-                            MediaLazyColumnScreen(
-                                modifier = Modifier.padding(paddingValues)
-                            )
-                        }
-                        Route.MediaNativeColumn -> {
-                            MediaNativeColumnScreen(
-                                modifier = Modifier.padding(paddingValues)
-                            )
-                        }
-                        Route.MediaNativeLazyColumn -> {
-                            MediaNativeLazyColumnScreen(
-                                modifier = Modifier.padding(paddingValues)
-                            )
-                        }
-                        Route.FeedColumn -> {
-                            FeedColumnScreen(
-                                modifier = Modifier.padding(paddingValues)
-                            )
-                        }
-                        Route.FeedLazyColumn -> {
-                            FeedLazyColumnScreen(
-                                modifier = Modifier.padding(paddingValues)
-                            )
-                        }
-                        Route.RecommendationsColumn -> {
-                            RecommendationsColumnScreen(
-                                modifier = Modifier.padding(paddingValues)
-                            )
-                        }
-                        Route.RecommendationsLazyColumn -> {
-                            RecommendationsLazyColumnScreen(
-                                modifier = Modifier.padding(paddingValues)
-                            )
-                        }
-                        Route.MediaAdMobColumn -> {
-                            MediaAdmobColumnScreen(
-                                modifier = Modifier.padding(paddingValues)
-                            )
-                        }
-                        Route.MediaNativeAdMobColumn -> {
-                            MediaNativeAdmobColumnScreen(
-                                modifier = Modifier.padding(paddingValues)
-                            )
-                        }
-                        Route.MediaAppLovinColumn -> {
-                            MediaAppLovinColumnScreen(
-                                modifier = Modifier.padding(paddingValues)
-                            )
-                        }
-                        Route.MediaNativeAppLovinColumn -> {
-                            MediaNativeAppLovinColumnScreen(
-                                modifier = Modifier.padding(paddingValues)
-                            )
-                        }
-                        Route.MediaSmartColumn -> {
-                            MediaSmartColumnScreen(
-                                modifier = Modifier.padding(paddingValues)
-                            )
-                        }
-                        Route.MediaNativeSmartColumn -> {
-                            MediaNativeSmartColumnScreen(
-                                modifier = Modifier.padding(paddingValues)
                             )
                         }
                         Route.InReadWebViewColumn -> {

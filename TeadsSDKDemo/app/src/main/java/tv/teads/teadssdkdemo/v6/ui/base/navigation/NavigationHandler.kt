@@ -18,24 +18,8 @@ object NavigationHandler {
         route: Route
     ) {
         when (route) {
-            Route.MediaScrollView,
-            Route.MediaRecyclerView,
-            Route.MediaNativeScrollView,
-            Route.MediaNativeRecyclerView,
-            Route.MediaAdMobScrollView,
-            Route.MediaNativeAdMobScrollView,
-            Route.MediaAppLovinScrollView,
-            Route.MediaNativeAppLovinScrollView,
-            Route.MediaSmartScrollView,
-            Route.MediaNativeSmartScrollView,
-            Route.MediaPrebidStandardScrollView,
-            Route.MediaPrebidStandaloneScrollView,
-            Route.FeedScrollView,
-            Route.FeedRecyclerView,
-            Route.RecommendationsScrollView,
-            Route.RecommendationsRecyclerView,
             Route.InReadWebView -> navigateToIntegrationActivity(fromActivity, route)
-            else -> throw IllegalAccessException("Impossible route")
+            else -> throw IllegalArgumentException("Unsupported route: $route")
         }
     }
 

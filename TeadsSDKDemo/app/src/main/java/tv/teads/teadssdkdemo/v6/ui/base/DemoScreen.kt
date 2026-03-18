@@ -18,7 +18,6 @@ import tv.teads.teadssdkdemo.v6.ui.base.components.ChipGroup
 import tv.teads.teadssdkdemo.v6.ui.base.components.CollapsibleSection
 import tv.teads.teadssdkdemo.v6.ui.base.components.DemoTextField
 import tv.teads.teadssdkdemo.v6.ui.base.components.FormatDescription
-import tv.teads.teadssdkdemo.v6.ui.base.components.ProviderDescription
 import tv.teads.teadssdkdemo.v6.ui.base.components.Section
 import tv.teads.teadssdkdemo.v6.ui.base.components.TeadsButton
 
@@ -28,10 +27,7 @@ fun DemoScreen(
     modifier: Modifier = Modifier,
     viewModel: DemoViewModel = viewModel()
 ) {
-    // Collect StateFlow values for reactive text fields
     val placementId by viewModel.placementId.collectAsState()
-    val widgetId by viewModel.widgetId.collectAsState()
-    val installationKey by viewModel.installationKey.collectAsState()
     val articleUrl by viewModel.articleUrl.collectAsState()
 
     Column(
@@ -49,32 +45,11 @@ fun DemoScreen(
             Section(title = "Format", modifier = Modifier.padding(top = 12.dp)) {
                 ChipGroup(
                     chips = viewModel.getFormatChips(),
-                    onChipClick = viewModel::onFormatChipClick,
+                    onChipClick = {},
                 )
 
-                // Format Description
                 FormatDescription(
                     selectedFormat = viewModel.selectedFormat
-                )
-            }
-        }
-
-        // Provider Section
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.08f))
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-        ) {
-            Section(title = "Provider") {
-                ChipGroup(
-                    chips = viewModel.getProviderChips(),
-                    onChipClick = viewModel::onProviderChipClick
-                )
-
-                // Provider Description
-                ProviderDescription(
-                    selectedProvider = viewModel.selectedProvider
                 )
             }
         }
@@ -99,64 +74,20 @@ fun DemoScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                if (viewModel.hasPlacementId()) {
-                    // Placement ID Text Field
-                    DemoTextField(
-                        value = placementId,
-                        onValueChange = viewModel::updatePlacementId,
-                        label = "Placement ID",
-                        keyboardType = viewModel.getInputMethod(),
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                // Placement ID Text Field
+                DemoTextField(
+                    value = placementId,
+                    onValueChange = viewModel::updatePlacementId,
+                    label = "Placement ID",
+                    keyboardType = viewModel.getInputMethod(),
+                    modifier = Modifier.fillMaxWidth()
+                )
 
-                    // PID Chips
-                    ChipGroup(
-                        chips = viewModel.getPidChips(),
-                        onChipClick = viewModel::onPidChipClick
-                    )
-                }
-
-                if (viewModel.hasWidgetId()) {
-                    // Widget ID Text Field
-                    DemoTextField(
-                        value = widgetId,
-                        onValueChange = viewModel::updateWidgetId,
-                        label = "Widget ID",
-                        modifier = Modifier.fillMaxWidth()
-                    )
-
-                    // Widget ID Chips
-                    ChipGroup(
-                        chips = viewModel.getWidgetChips(),
-                        onChipClick = viewModel::onWidgetChipClick
-                    )
-
-                    DemoTextField(
-                        value = installationKey,
-                        onValueChange = viewModel::updateInstallationKey,
-                        label = "Installation Key",
-                        modifier = Modifier.fillMaxWidth()
-                    )
-
-                    // Feed Installation Key Chips
-                    ChipGroup(
-                        chips = viewModel.getInstallationKeyChips(),
-                        onChipClick = viewModel::onInstallationKeyChipClick
-                    )
-                }
-            }
-
-            // Display Mode Section (for Prebid provider or Media/Feed with Direct)
-            if (viewModel.shouldShowDisplayModeSection()) {
-                Section(
-                    title = "Display Mode",
-                    modifier = Modifier.padding(top = 18.dp)
-                ) {
-                    ChipGroup(
-                        chips = viewModel.getDisplayModeChips(),
-                        onChipClick = viewModel::onDisplayModeChipClick
-                    )
-                }
+                // PID Chips
+                ChipGroup(
+                    chips = viewModel.getPidChips(),
+                    onChipClick = viewModel::onPidChipClick
+                )
             }
         }
 
