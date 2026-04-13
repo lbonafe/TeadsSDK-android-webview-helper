@@ -4,7 +4,9 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
 import android.widget.FrameLayout
+import kotlin.math.abs
 
 open class ObservableContainerAdView @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -12,25 +14,52 @@ open class ObservableContainerAdView @JvmOverloads constructor(
 
     private var touchForwardTarget: View? = null
 
+    // Scroll detection state for onInterceptTouchEvent.
+    // Mirrors the pattern used by ScrollView: track the initial touch position
+    // and intercept once displacement exceeds the system touch slop.
+    // Interception sends ACTION_CANCEL to children, preventing performClick().
+    private var interceptDownX = 0f
+    private var interceptDownY = 0f
+    private var isScrolling = false
+    private val touchSlop = ViewConfiguration.get(context).scaledTouchSlop
+
     fun setTouchForwardTarget(target: View) {
         this.touchForwardTarget = target
     }
 
     override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
         forwardTouchEvent(event)
+
+        when (event.actionMasked) {
+            // Record initial finger position and reset scroll state for this gesture
+            MotionEvent.ACTION_DOWN -> {
+                interceptDownX = event.x
+                interceptDownY = event.y
+                isScrolling = false
+            }
+            // Once finger moves beyond touch slop, intercept to send ACTION_CANCEL to children
+            MotionEvent.ACTION_MOVE -> {
+                if (!isScrolling) {
+                    val dx = abs(event.x - interceptDownX)
+                    val dy = abs(event.y - interceptDownY)
+                    if (dx > touchSlop || dy > touchSlop) {
+                        isScrolling = true
+                        return true
+                    }
+                }
+            }
+        }
         return false
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (event.action == MotionEvent.ACTION_UP) {
-            performClick()
+        when (event.actionMasked) {
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                isScrolling = false
+            }
         }
         forwardTouchEvent(event)
         return true
-    }
-
-    override fun performClick(): Boolean {
-        return super.performClick()
     }
 
     private fun forwardTouchEvent(event: MotionEvent) {
